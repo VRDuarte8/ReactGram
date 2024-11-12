@@ -17,8 +17,6 @@ export const profile = createAsyncThunk(
   
       const data = await userService.profile(user, token);
   
-      console.log(data);
-  
       return data;
     }
 );
@@ -36,12 +34,21 @@ export const updateProfile = createAsyncThunk(
         return thunkAPI.rejectWithValue(data.errors[0]);
       }
   
-      console.log(data);
-  
       return data;
     }
   );
   
+// Get user details
+export const getUserDetails = createAsyncThunk(
+  "user/get",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await userService.getUserDetails(id, token);
+
+    return data;
+  }
+);
 
 export const userSlice = createSlice({
     name: "user",
@@ -78,7 +85,7 @@ export const userSlice = createSlice({
           state.loading = false;
           state.error = action.payload;
           state.user = null;
-        })/*
+        })
         .addCase(getUserDetails.pending, (state) => {
           state.loading = true;
           state.error = null;
@@ -88,7 +95,7 @@ export const userSlice = createSlice({
           state.success = true;
           state.error = null;
           state.user = action.payload;
-        });*/
+        });
     },
 });
   
