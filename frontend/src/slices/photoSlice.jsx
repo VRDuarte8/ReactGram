@@ -39,6 +39,15 @@ export const getUserPhotos = createAsyncThunk(
     }
 );
 
+// Get photo
+export const getPhoto = createAsyncThunk("photo/getphoto", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await photoService.getPhoto(id, token);
+  
+    return data;
+});
+
 // Delete a photo
 export const deletePhoto = createAsyncThunk(
     "photo/delete",
@@ -77,6 +86,48 @@ export const updatePhoto = createAsyncThunk(
     }
 );
 
+// Like a photo
+export const like = createAsyncThunk("photo/like", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+  
+    const data = await photoService.like(id, token);
+  
+    // Check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+  
+    return data;
+});
+
+// Add comment to a photo
+export const comment = createAsyncThunk(
+    "photo/comment",
+    async (commentData, thunkAPI) => {
+      const token = thunkAPI.getState().auth.user.token;
+  
+      const data = await photoService.comment(
+        { comment: commentData.comment },
+        commentData.id,
+        token
+      );
+  
+      // Check for errors
+      if (data.errors) {
+        return thunkAPI.rejectWithValue(data.errors[0]);
+      }
+  
+      return data;
+    }
+);
+
+// Get all photos
+export const getPhotos = createAsyncThunk("photo/getall", async () => {
+    const data = await photoService.getPhotos();
+  
+    return data;
+});
+
 export const photoSlice = createSlice({
     name: "publish",
     initialState,
@@ -113,18 +164,17 @@ export const photoSlice = createSlice({
           state.success = true;
           state.error = null;
           state.photos = action.payload;
-        })/*
+        })
         .addCase(getPhoto.pending, (state) => {
           state.loading = true;
           state.error = null;
         })
         .addCase(getPhoto.fulfilled, (state, action) => {
-          console.log(action.payload);
           state.loading = false;
           state.success = true;
           state.error = null;
           state.photo = action.payload;
-        })*/
+        })
         .addCase(deletePhoto.pending, (state) => {
           state.loading = true;
           state.error = null;
@@ -167,7 +217,7 @@ export const photoSlice = createSlice({
           state.loading = false;
           state.error = action.payload;
           state.photo = null;
-        })/*
+        })
         .addCase(like.fulfilled, (state, action) => {
           state.loading = false;
           state.success = true;
@@ -213,7 +263,7 @@ export const photoSlice = createSlice({
           state.success = true;
           state.error = null;
           state.photos = action.payload;
-        })
+        })/*
         .addCase(searchPhotos.pending, (state) => {
           state.loading = true;
           state.error = null;
