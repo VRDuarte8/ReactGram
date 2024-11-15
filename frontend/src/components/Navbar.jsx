@@ -45,51 +45,55 @@ const Navbar = () => {
 
   return (
     <nav id="nav">
-        <Link to="/">
-            <h2>ReactGram</h2>
-        </Link> 
-        <form id="search-form" >
-            <BsSearch/>
-            <input type="text" placeholder="Pesquisar"/>
-        </form>
-        <ul id="nav-links">
-          {auth ? (
-            <>
+      <Link to="/">
+        <h2>ReactGram</h2>
+      </Link>
+      <form id="search-form" onSubmit={handleSearch}>
+        <BsSearch />
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </form>
+      <ul id="nav-links">
+        {auth ? (
+          <>
+            <li>
+              <NavLink to="/">
+                <BsHouseDoorFill />
+              </NavLink>
+            </li>
+            {user && (
               <li>
-                <NavLink to="/">
-                  <BsHouseDoorFill />
+                <NavLink to={`/users/${user._id}`}>
+                  <BsFillCameraFill />
                 </NavLink>
               </li>
-              {user && (
-                <li>
-                  <NavLink to={`/users/${user._id}`}>
-                    <BsFillCameraFill />
-                  </NavLink>
-                </li>
-              )}
-              <li>
-                <NavLink to="/profile">
-                  <BsFillPersonFill />
-                </NavLink>
-              </li>
-              <li>
-                <span onClick={handleLogout}>Sair</span>
-              </li>
-            </>
-          ) : (
-            <>
-              {" "}
-              <li>
-                <NavLink to="/login">Entrar</NavLink>
-              </li>
-              <li>
-                <NavLink to="/register">Cadastrar</NavLink>
-              </li>
-            </>
-          )}
-        </ul>
+            )}
+            <li>
+              <NavLink to="/profile">
+                <BsFillPersonFill />
+              </NavLink>
+            </li>
+            <li>
+              <span onClick={handleLogout}>Sair</span>
+            </li>
+          </>
+        ) : (
+          <>
+            {" "}
+            <li>
+              <NavLink to="/login">Entrar</NavLink>
+            </li>
+            <li>
+              <NavLink to="/register">Cadastrar</NavLink>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
