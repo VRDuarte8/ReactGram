@@ -1,7 +1,7 @@
 # ReactGram
 
 <h3>Descrição</h3>
-<p>Projeto de aplicação semelhante ao Instagram, com possibilidade de cadastro, publicação e interação com fotos de outros usuários.</p>
+<p>Projeto de Rede Social, com possibilidade de publicação e interação com fotos de outros usuários.</p>
 
 ![image](https://github.com/user-attachments/assets/79278431-c16d-4281-a684-a1edc2c7ee94)
 
